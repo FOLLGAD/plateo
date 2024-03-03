@@ -111,7 +111,7 @@ export default function Meal() {
 
       <div className="w-full p-4 pt-0">
         <div className="flex flex-wrap">
-          {mealData.ingredients.map((ingredient) => (
+          {mealData.ingredients?.map((ingredient) => (
             <div
               key={ingredient.name}
               className="bg-gray-200 mt-1 p-2 px-3 mr-1 rounded-full text-sm font-medium text-gray-500 max-w-32 overflow-hidden overflow-ellipsis whitespace-nowrap"
@@ -119,7 +119,7 @@ export default function Meal() {
               {ingredient.name}
             </div>
           ))}
-          {mealData.allergens.map((allergen) => (
+          {mealData.allergens?.map((allergen) => (
             <div
               key={allergen}
               className="bg-red-200 mt-1 p-2 px-3 mr-1 rounded-full text-sm font-medium text-gray-500 max-w-32 overflow-hidden overflow-ellipsis whitespace-nowrap"
