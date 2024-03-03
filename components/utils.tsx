@@ -1,6 +1,7 @@
 import { useState } from "react";
-
-export const apiURL = "http://127.0.0.1:5000";
+const env = process.env.NODE_ENV;
+export const apiURL =
+  env == "development" ? "http://127.0.0.1:5000" : "https://plateo.ngrok.app";
 
 export const useToggle = (initialState: boolean) => {
   const [state, setState] = useState(initialState);
