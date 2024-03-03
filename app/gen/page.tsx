@@ -92,9 +92,9 @@ export default function Page() {
       router.push(
         `/recipes/${recipe[Math.floor(Math.random() * recipe.length)]}`
       );
+      setLoading(false);
     }, 5000);
     // }
-    setLoading(false);
   };
 
   return (
