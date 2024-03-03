@@ -79,7 +79,20 @@ export default function Page() {
     // }).then((res) => res.json());
 
     // if (response.recipe_id) {
-    router.push(`/recipes/${"tmiBWcID"}`);
+    // sleep 5 secs
+
+    setTimeout(() => {
+      const recipe = [
+        "n9ipxdls",
+        "D_ZwsIXn",
+        "GOYtD0XJ",
+        "p7dlvuO4",
+        "xJDSSr9R",
+      ];
+      router.push(
+        `/recipes/${recipe[Math.floor(Math.random() * recipe.length)]}`
+      );
+    }, 5000);
     // }
     setLoading(false);
   };

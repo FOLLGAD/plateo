@@ -43,11 +43,24 @@ export default function RecipePage() {
   return (
     <div>
       <Header backlinkUrl="/" />
-      <h1>{recipe.title}</h1>
-      <p>{recipe.instructions}</p>
       {recipe.image && (
-        <img src={`${apiURL}/static/${recipe.image}`} alt={recipe.title} />
+        <div className="flex flex-col items-center justify-center w-full max-h-64 overflow-hidden">
+          <img
+            src={`${apiURL}/static/${recipe.image}`}
+            alt={recipe.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
       )}
+      <div className="p-4">
+        <h1 className="text-xl font-bold mb-2">{recipe.title}</h1>
+        <p>{recipe.instructions}</p>
+      </div>
+      <div className="flex justify-center p-4">
+        <button className="bg-snaptrack-main hover:bg-snaptrack-dark text-white font-bold py-2 px-4 rounded text-xl">
+          Make it!
+        </button>
+      </div>
     </div>
   );
 }
