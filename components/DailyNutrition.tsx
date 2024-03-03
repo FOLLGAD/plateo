@@ -1,3 +1,4 @@
+import { LoadSpinner } from "./LoadSpinner";
 import { Meal } from "./utils";
 
 export const DailyNutrition = ({ meals }: { meals: Meal[] }) => {
@@ -16,6 +17,9 @@ export const DailyNutrition = ({ meals }: { meals: Meal[] }) => {
   const totalFiber = meals.reduce((acc, meal) => acc + Number(meal.fiber), 0);
   const totalSalt = meals.reduce((acc, meal) => acc + Number(meal.salt), 0);
 
+  if (meals.length === 0) {
+    return <LoadSpinner />;
+  }
   return (
     <div className="p-4 pt-0">
       <h1 className="text-2xl font-bold">Today</h1>
