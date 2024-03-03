@@ -162,7 +162,7 @@ export default function Meal() {
             dataLabels: {
               formatter(val, opts) {
                 const name = opts.w.globals.labels[opts.seriesIndex];
-                return [name, parseFloat(val).toFixed(1) + "%"];
+                return [name, parseFloat(val as string).toFixed(1) + "%"] as any as string;
               },
             },
             plotOptions: {
