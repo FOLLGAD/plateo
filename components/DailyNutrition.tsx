@@ -13,8 +13,8 @@ export const DailyNutrition = ({ meals }: { meals: Meal[] }) => {
   const totalCarbs = meals.reduce((acc, meal) => acc + Number(meal.carbs), 0);
   const totalFats = meals.reduce((acc, meal) => acc + Number(meal.fats), 0);
   const totalSugars = meals.reduce((acc, meal) => acc + Number(meal.sugars), 0);
-  const totalSalt = meals.reduce((acc, meal) => acc + Number(meal.salt), 0);
   const totalFiber = meals.reduce((acc, meal) => acc + Number(meal.fiber), 0);
+  const totalSalt = meals.reduce((acc, meal) => acc + Number(meal.salt), 0);
 
   return (
     <div className="p-4 pt-0">

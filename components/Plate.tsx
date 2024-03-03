@@ -7,7 +7,7 @@ export const Plate = () => (
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
   >
-    <rect width="37" height="37" fill="url(#pattern0)" fill-opacity="0.6" />
+    <rect width="37" height="37" fill="url(#pattern0)" fillOpacity="0.6" />
     <defs>
       <pattern
         id="pattern0"

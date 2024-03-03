@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
 import base64
+import requests
 from tinydb import TinyDB, Query
 import time, yaml
 
@@ -16,6 +17,7 @@ class FoodAppDB:
         self.db = TinyDB("./db.json")
         self.users = self.db.table("users")
         self.foods = self.db.table("foods")
+        self.recipe = self.db.table("recipe")
 
     def add_user(self, username, weight, height, age):
         user_id = get_random_filename()
@@ -82,6 +84,23 @@ class FoodAppDB:
         Food = Query()
         food = self.foods.get(Food.food_id == food_id)
         return food
+
+    def add_recipe(self, title, instructions, image):
+        recipe_id = get_random_filename()
+        self.recipe.insert(
+            {
+                "recipe_id": recipe_id,
+                "title": title,
+                "instructions": instructions,
+                "image": image,
+            }
+        )
+        return recipe_id
+
+    def get_recipe(self, recipe_id):
+        Recipe = Query()
+        recipe = self.recipe.get(Recipe.recipe_id == recipe_id)
+        return recipe
 
 
 db = FoodAppDB()
@@ -278,12 +297,81 @@ async def get_meals_by_date(date: str, token: str = Header(...)):
     return meals
 
 
+import replicate
+
+
 @app.post("/recipes/generate")
 async def generate_recipe(data: dict = Body(...), token: str = Header(...)):
     user_id = decode_token(token)
-    query = Query()
-    meals = db.foods.search(query.user_id == user_id)
-    meals.sort(key=lambda x: x["date"], reverse=True)
+    print("hiki")
+    nutrition = data["nutrition"]
+    meal_type = data["mealType"]
+    recipe = openai_client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system",
+                "content": f"""
+Generate a {meal_type} recipe. The user today has already with the following nutrition: {nutrition}.
+For example, if the user had too much protein, you can suggest a recipe with less protein.
+
+IMPORTANT: Respond in a yaml with the following schema:
+```
+title: xxx
+recipe_outline: "free text describing the recipe. max 100 words"
+```
+                        """.strip(),
+            },
+        ],
+        max_tokens=400,
+    )
+
+    outData = recipe.choices[0].message.content or "No response"
+
+    try:
+        yaml_data = outData.split("```")[1]
+        yaml_data = yaml_data[yaml_data.find("\n") + 1 :]
+
+        data = yaml.safe_load(yaml_data)
+    except Exception as e:
+        print(e)
+        error = "Food not recognized. Please try again."
+        print(outData)
+        return {"error": error}
+
+    print(data)
+    try:
+        output = replicate.run(
+            "dhanushreddy291/sdxl-turbo:53a8078c87ad900402a246bf5e724fa7538cf15c76b0a22753594af58850a0e3",
+            input={
+                "prompt": data.get("title"),
+                "num_outputs": 1,
+                "negative_prompt": "blurry, bad",
+                "num_inference_steps": 2,
+            },
+        )
+        ext_img_url = output[0]
+        filename = f"{get_random_filename()}.png"
+        img_path = f"static/{filename}"
+        with open(img_path, "wb") as f:
+            f.write(requests.get(ext_img_url).content)
+    except Exception as e:
+        print(e)
+        recipe_id = db.add_recipe(data["title"], data["recipe_outline"], None)
+        return {"message": f"Recipe generated. Recipe ID: {recipe_id}"}
+
+    recipe_id = db.add_recipe(data["title"], data["recipe_outline"], filename)
+    return {
+        "message": f"Recipe generated. Recipe ID: {recipe_id}",
+        "recipe_id": recipe_id,
+    }
+
+
+@app.get("/recipes/{recipe_id}")
+async def get_recipe(recipe_id: str):
+    recipe = db.get_recipe(recipe_id)
+
+    return recipe
 
 
 @app.get("/meals/{meal_id}")

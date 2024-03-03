@@ -3,6 +3,8 @@ import { DailyNutrition } from "@/components/DailyNutrition";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import { Meal, apiURL } from "@/components/utils";
+import { useRouter } from "next/navigation";
+import { LoadSpinner } from "@/components/LoadSpinner";
 
 const useMeals = (date: string) => {
   const [meals, setMeals] = useState<Meal[]>([]);
@@ -21,28 +23,81 @@ const useMeals = (date: string) => {
 };
 
 export default function Page() {
+  const router = useRouter();
   const todayISO = new Date().toISOString().split("T")[0];
   const todaysMeals = useMeals(todayISO);
+  const [loading, setLoading] = useState(false);
 
-  const generateRecipe = () => {
-    fetch(`${apiURL}/recipes/generate`, {
-      method: "POST",
-      headers: {
-        token: "emil:1234",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+  const generateRecipe = async () => {
+    setLoading(true);
+    const calories = todaysMeals.reduce(
+      (acc, meal) => acc + Number(meal.calories),
+      0
+    );
+    const proteins = todaysMeals.reduce(
+      (acc, meal) => acc + Number(meal.proteins),
+      0
+    );
+    const carbs = todaysMeals.reduce(
+      (acc, meal) => acc + Number(meal.carbs),
+      0
+    );
+    const fats = todaysMeals.reduce((acc, meal) => acc + Number(meal.fats), 0);
+    const sugars = todaysMeals.reduce(
+      (acc, meal) => acc + Number(meal.sugars),
+      0
+    );
+    const fiber = todaysMeals.reduce(
+      (acc, meal) => acc + Number(meal.fiber),
+      0
+    );
+
+    const mealOfDay: "Breakfast" | "Lunch" | "Dinner" =
+      new Date().getHours() < 12
+        ? "Breakfast"
+        : new Date().getHours() < 18
+        ? "Lunch"
+        : "Dinner";
+
+    // const response = await fetch(`${apiURL}/recipes/generate`, {
+    //   method: "POST",
+    //   headers: {
+    //     token: "emil:1234",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     mealType: mealOfDay,
+    //     nutrition: {
+    //       calories,
+    //       proteins,
+    //       carbs,
+    //       fats,
+    //       sugars,
+    //       fiber,
+    //     },
+    //   }),
+    // }).then((res) => res.json());
+
+    // if (response.recipe_id) {
+    router.push(`/recipes/${"tmiBWcID"}`);
+    // }
+    setLoading(false);
   };
 
   return (
     <div>
       <Header backlinkUrl="/" />
       <DailyNutrition meals={todaysMeals} />
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Generate recipe
-      </button>
+      {!loading ? (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={generateRecipe}
+        >
+          Generate recipe
+        </button>
+      ) : (
+        <LoadSpinner />
+      )}
     </div>
   );
 }
