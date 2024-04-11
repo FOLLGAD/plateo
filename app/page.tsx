@@ -1,11 +1,16 @@
 "use client";
 import { apiURL } from "@/components/utils";
-import { useEffect, useState } from "react";
-import { QuickAddButton } from "@/components/QuickAddButton";
-import { useRouter } from "next/navigation";
-import { Plate } from "@/components/Plate";
-import { MealScroll } from "@/components/MealScroll";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { DetailsBar } from "../components/DetailsBar";
+import { BerryPancake } from "@/components/imgs";
+import { Card } from "@/components/ui/card";
+import {
+  ArrowRightIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+} from "@radix-ui/react-icons";
 
 const useLatestMeals = () => {
   const [meals, setMeals] = useState<null | any[]>(null);
@@ -44,69 +49,90 @@ export default function Home() {
       : now.getHours() < 18
       ? "afternoon"
       : "evening";
+  const dayOfWeek = new Date(now.getTime()).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
 
   return (
     <div>
-      <div className="flex justify-center mt-4 items-center mb-4 flex-col">
-        <div className="w-32">
+      <div className="absolute flex justify-center items-center w-full overflow-x-hidden top-0">
+        <div className="relative h-[150vw]">
+          <div
+            className={
+              "absolute w-[150vw] h-[100vw] transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-snaptrack-dark -z-10 drop-shadow-lg"
+            }
+            style={{
+              background:
+                "radial-gradient(circle at 20% 100%, #ACE4AA 0%, rgb(138, 199, 138) 100%)",
+            }}
+          ></div>
+        </div>
+      </div>
+      <div className="flex justify-center mt-4 items-center flex-col z-10">
+        <div className="w-32 pt-4">
           <Image src="/plateo.svg" width={128} height={128} alt="logo" />
         </div>
         <h1 className="text-3xl font-bold mt-2 text-snaptrack-text pl-2">
           Plateo
         </h1>
       </div>
-      <h3 className="text-4xl block mx-12">
-        <div className="text-gray-300 font-bold">Good {timeOfDay},</div>
-        <div className="font-bold text-gray-600">Ossian</div>
-      </h3>
-      <div className="ml-16 mt-8 mb-8">
-        <button
-          className="bg-snaptrack-dark text-snaptrack-text p-2 rounded-2xl rounded-r-none text-left flex items-center"
-          style={{ width: "100%" }}
-          onClick={() => {
-            router.push("/gen");
-          }}
-        >
-          <div className="p-4">
-            <Plate />
-          </div>
-          <div className="ml-4 flex-grow">
-            <div className="uppercase font-bold text-xl">
-              {currentMealOfDay}
-            </div>
-            <div className="text-white font-semibold">Generate recipe</div>
-          </div>
-          <div className="pr-8 font-bold text-xl">→</div>
-        </button>
+      <div className="w-full p-4">
+        <DetailsBar />
       </div>
-      <div className="ml-32 mt-8 mb-8">
-        <button
-          className="bg-snaptrack-main text-snaptrack-text p-2 rounded-2xl rounded-r-none text-left flex items-center"
-          style={{ width: "100%" }}
-          onClick={() => {
-            router.push("/gen");
-          }}
-        >
-          <div className="p-2">
-            <Image src="/progress.svg" width={54} height={54} alt="progress" />
-          </div>
-          <div className="ml-4 flex-grow">
-            <div className="uppercase font-bold text-xl">Progress</div>
-            <div className="text-white font-semibold">54%</div>
-          </div>
-        </button>
+      <div className="flex justify-center items-center pt-4 pb-4 font-semibold gap-8">
+        <CaretLeftIcon className="w-6 h-6 text-gray-500" />
+        {/* Day, DD MMMM */}
+        {dayOfWeek}, {now.getDate()}{" "}
+        {now.toLocaleDateString("en-US", {
+          month: "long",
+        })}
+        <CaretRightIcon className="w-6 h-6 text-gray-500" />
       </div>
-      {!!meals && (
-        <div>
-          <h2 className="text-2xl font-bold ml-4">Your latest meals</h2>
-          <MealScroll meals={meals} />
-        </div>
-      )}
-      <QuickAddButton
-        onClick={() => {
-          router.push("/snap");
-        }}
-      />
+      <div className="flex flex-col items-center justify-center gap-4 px-4">
+        <Card className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow">
+          <BerryPancake />
+          <div className="flex-grow">
+            <p className="text-snaptrack-text font-bold">Breakfast</p>
+            <p className="text-black font-medium">Berry Pancakes</p>
+          </div>
+          <div className="text-right">
+            <p className="text-black font-medium">1589 kcal</p>
+          </div>
+        </Card>
+        <Card className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow">
+          <BerryPancake />
+          <div className="flex-grow">
+            <p className="text-snaptrack-text font-bold">Lunch</p>
+            <p className="text-black font-medium">Pesto Pasta</p>
+          </div>
+          <div className="text-right">
+            <p className="text-black font-medium">720 kcal</p>
+          </div>
+        </Card>
+      </div>
+
+      <h2 className="text-xl font-bold uppercase ml-4 mt-8 mb-4">
+        <span className="text-snaptrack-text">AI Suggested ⚡️</span>
+      </h2>
+
+      <div className="flex flex-col items-center justify-center gap-4 px-4">
+        <Card
+          className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow bg-snaptrack-light"
+          onClick={() => router.push("/gen")}
+        >
+          <BerryPancake />
+          <div className="flex-grow">
+            <p className="text-snaptrack-text font-bold">
+              Dinner{" "}
+              <span className="ml-4 text-gray-700 font-normal">872 kcal</span>
+            </p>
+            <p className="text-black font-medium">Mushroom Salad</p>
+          </div>
+          <div className="text-right">
+            <ArrowRightIcon className="w-6 h-6 text-snaptrack-text" />
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

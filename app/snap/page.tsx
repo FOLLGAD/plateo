@@ -11,7 +11,7 @@ export default function Snap() {
     router.push(`/meals/${results.food_id}`);
   };
   return (
-    <div>
+    <div className="w-full min-h-full relative flex-grow">
       <Header />
       <FoodSnap onResults={onResults} />
     </div>

@@ -22,7 +22,7 @@ export const Logo = () => (
         <path
           d="M74.0952 94.9914C96.6084 94.9914 114.905 77.2144 114.905 55.2295C114.905 33.2446 96.6084 15.4676 74.0952 15.4676C51.5821 15.4676 33.2857 33.2446 33.2857 55.2295C33.2857 77.2144 51.5821 94.9914 74.0952 94.9914Z"
           stroke="#D9D9D9"
-          stroke-width="2"
+          strokeWidth="2"
         />
       </g>
       <path
@@ -33,19 +33,19 @@ export const Logo = () => (
         <path
           d="M138 28.2381V89"
           stroke="#D9D9D9"
-          stroke-width="3"
+          strokeWidth="3"
           stroke-linecap="round"
         />
       </g>
       <path
         d="M138 57.5714L137.465 56.2574C133.793 47.2394 133.987 37.1093 138 28.2381V28.2381"
         stroke="#D9D9D9"
-        stroke-width="3"
+        strokeWidth="3"
       />
       <path
         d="M10.1905 28.2381V89M6 28.2381V40.3439C6 42.9154 8.0846 45 10.6561 45C12.7133 45 14.381 43.3323 14.381 41.2751V28.2381"
         stroke="#D9D9D9"
-        stroke-width="3"
+        strokeWidth="3"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -73,7 +73,7 @@ export const Logo = () => (
         <path
           d="M81.4286 82.7143L75.1429 81.1429C73.7672 80.799 72.3281 80.799 70.9524 81.1429L64.6667 82.7143C69.9426 85.3523 76.1527 85.3523 81.4286 82.7143Z"
           stroke="#343232"
-          stroke-width="0.5"
+          strokeWidth="0.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         />

@@ -17,7 +17,7 @@ export const DailyNutrition = ({ meals }: { meals: Meal[] }) => {
   const totalFiber = meals.reduce((acc, meal) => acc + Number(meal.fiber), 0);
   const totalSalt = meals.reduce((acc, meal) => acc + Number(meal.salt), 0);
 
-  if (meals.length === 0) {
+  if (!meals) {
     return <LoadSpinner />;
   }
   return (

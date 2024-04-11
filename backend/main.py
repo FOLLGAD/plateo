@@ -188,7 +188,7 @@ async def upload(file: UploadFile = File(...), token: str = Header(...)):
         f.write(content)
 
     response = openai_client.chat.completions.create(
-        model="gpt-4-vision-preview",
+        model="gpt-4-turbo",
         messages=[
             {
                 "role": "user",
