@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const env = process.env.NODE_ENV;
 export const apiURL =
   env == "development" ? "http://127.0.0.1:8000" : "https://plateo.ngrok.app";
@@ -23,3 +23,18 @@ export interface Meal {
   calories: number;
   sugars: number;
 }
+export const useMeals = (date: string) => {
+  const [meals, setMeals] = useState<Meal[]>([]);
+  useEffect(() => {
+    fetch(`${apiURL}/meals/date/${date}`, {
+      method: "GET",
+      headers: {
+        token: "emil:1234",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setMeals(data))
+      .catch((error) => console.error(error));
+  }, [date]);
+  return meals;
+};

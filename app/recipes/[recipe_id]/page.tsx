@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
@@ -57,7 +58,7 @@ export default function RecipePage() {
         <p>{recipe.instructions}</p>
       </div>
       <div className="flex justify-center p-4">
-        <button className="bg-snaptrack-main hover:bg-snaptrack-dark text-white font-bold py-2 px-4 rounded text-xl">
+        <button className="bg-snaptrack-text hover:bg-snaptrack-dark text-white font-bold py-2 px-4 rounded text-xl">
           Make it!
         </button>
       </div>

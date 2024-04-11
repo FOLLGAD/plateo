@@ -297,9 +297,6 @@ async def get_meals_by_date(date: str, token: str = Header(...)):
     return meals
 
 
-import replicate
-
-
 @app.post("/recipes/generate")
 async def generate_recipe(data: dict = Body(...), token: str = Header(...)):
     user_id = decode_token(token)
@@ -341,6 +338,8 @@ recipe_outline: "free text describing the recipe. max 100 words"
 
     print(data)
     try:
+        import replicate
+
         output = replicate.run(
             "dhanushreddy291/sdxl-turbo:53a8078c87ad900402a246bf5e724fa7538cf15c76b0a22753594af58850a0e3",
             input={

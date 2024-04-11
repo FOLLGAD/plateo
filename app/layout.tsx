@@ -24,7 +24,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${quicksand.className} min-h-screen flex flex-col`}
       >
-        {children}
+        <div className="flex-grow flex flex-col pb-32 relative">{children}</div>
         <BottomBar />
       </body>
     </html>

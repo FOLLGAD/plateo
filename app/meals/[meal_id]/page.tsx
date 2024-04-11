@@ -7,6 +7,7 @@ import { apiURL } from "@/components/utils";
 import Chart from "react-apexcharts";
 import { Meal } from "@/components/utils";
 import { LoadSpinner } from "@/components/LoadSpinner";
+import { Card } from "@/components/ui/card";
 
 const toGrams = (weight?: string | number) => {
   if (!weight) return 0;
@@ -96,25 +97,77 @@ export default function Meal() {
   return (
     <div>
       <Header backlinkUrl="/" />
-      <h1 className="text-3xl font-bold px-4 pt-2">{mealData.title}</h1>
-      <h2 className="font-medium text-gray-400 px-4">
-        {new Date(mealData.date).toLocaleTimeString()}{" "}
-        {new Date(mealData.date).toLocaleDateString()}
-      </h2>
+
+      <div className="px-2">
+        <h1 className="text-3xl font-bold px-4 text-snaptrack-text">
+          {mealData.title}
+        </h1>
+        <h2 className="font-semibold text-snaptrack-text px-4 flex items-center justify-between">
+          <div>
+            {new Date(mealData.date).toLocaleTimeString()}{" "}
+            {new Date(mealData.date).toLocaleDateString()}
+          </div>
+          <div>
+            <p className="">{mealData.calories}kcal</p>
+          </div>
+        </h2>
+      </div>
+
       <div className="flex flex-col w-full p-4 pb-2">
         <img
           src={apiURL + "/images/" + mealData.images[0]}
           alt={mealData.title}
-          className="w-full h-64 object-cover rounded-lg"
+          className="w-full h-96 object-cover rounded-[32px]"
         />
       </div>
-
-      <div className="w-full p-4 pt-0">
-        <div className="flex flex-wrap">
+      <div className="flex flex-col w-full p-4 pb-2 px-8 pb-6 text-sm">
+        <Card className="rounded-xl">
+          <div className="flex gap-8 text-center font-semibold w-full px-4">
+            <div className="basis-[1px] flex-grow">
+              <p>Carbs</p>
+              <div className="w-full h-2 rounded-full bg-gray-200">
+                <div
+                  className="max-w-full h-full bg-[#F5E080] rounded-full"
+                  style={{
+                    width: (toGrams(mealData.carbs) / 300) * 100 + "%",
+                  }}
+                />
+              </div>
+              <p>{toGrams(mealData.carbs)}g</p>
+            </div>
+            <div className="basis-[1px] flex-grow">
+              <p>Fats</p>
+              <div className="w-full h-2 rounded-full bg-gray-200">
+                <div
+                  className="max-w-full h-full bg-[#CE4050] rounded-full"
+                  style={{
+                    width: (toGrams(mealData.fats) / 65) * 100 + "%",
+                  }}
+                />
+              </div>
+              <p>{toGrams(mealData.fats)}g</p>
+            </div>
+            <div className="basis-[1px] flex-grow">
+              <p>Protein</p>
+              <div className="w-full h-2 rounded-full bg-gray-200">
+                <div
+                  className="max-w-full h-full bg-[#3463ce] rounded-full"
+                  style={{
+                    width: (toGrams(mealData.proteins) / 50) * 100 + "%",
+                  }}
+                />
+              </div>
+              <p>{toGrams(mealData.proteins)}g</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+      <div className="w-full p-4 px-8 pt-0">
+        <div className="flex flex-wrap gap-2">
           {mealData.ingredients?.map((ingredient) => (
             <div
               key={ingredient.name}
-              className="bg-gray-200 mt-1 p-2 px-3 mr-1 rounded-full text-sm font-medium text-gray-500 max-w-32 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              className="bg-blue-400 text-white p-2 px-3 rounded-full text-sm font-medium text-gray-500 max-w-32 overflow-hidden overflow-ellipsis whitespace-nowrap"
             >
               {ingredient.name}
             </div>
@@ -122,14 +175,13 @@ export default function Meal() {
           {mealData.allergens?.map((allergen) => (
             <div
               key={allergen}
-              className="bg-red-200 mt-1 p-2 px-3 mr-1 rounded-full text-sm font-medium text-gray-500 max-w-32 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              className="bg-red-200 p-2 px-3 rounded-full text-sm font-medium text-gray-500 max-w-32 overflow-hidden overflow-ellipsis whitespace-nowrap"
             >
               {allergen}
             </div>
           ))}
         </div>
       </div>
-
       <div className="pl-4 flex-grow">
         <p>
           Calories: <b>{mealData.calories}kcal</b>
@@ -144,7 +196,6 @@ export default function Meal() {
           Carbs: <b>{toGrams(mealData.carbs)}g</b>
         </p>
       </div>
-
       <div style={{ maxWidth: 512 }}>
         <Chart
           type="pie"
@@ -162,7 +213,10 @@ export default function Meal() {
             dataLabels: {
               formatter(val, opts) {
                 const name = opts.w.globals.labels[opts.seriesIndex];
-                return [name, parseFloat(val as string).toFixed(1) + "%"] as any as string;
+                return [
+                  name,
+                  parseFloat(val as string).toFixed(1) + "%",
+                ] as any as string;
               },
             },
             plotOptions: {

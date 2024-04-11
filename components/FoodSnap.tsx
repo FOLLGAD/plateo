@@ -3,6 +3,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { apiURL } from "./utils";
 import { ScanCrosshair } from "./ScanCrosshair";
 import { cn } from "@/lib/utils";
+import {
+  CheckIcon,
+  CircleBackslashIcon,
+  ReloadIcon,
+  UploadIcon,
+} from "@radix-ui/react-icons";
+import { Button } from "./ui/button";
+import { NoiseBg } from "./NoiseBg";
 
 export default function FoodSnap({
   onResults,
@@ -18,21 +26,26 @@ export default function FoodSnap({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let cam: MediaStream | null = null;
     navigator.mediaDevices
       .getUserMedia({
         video: { facingMode: "environment" },
       })
       .then((mediaStream) => {
         setCamera(mediaStream);
+        cam = mediaStream;
       })
       .catch((err) => {
         setError(err.message);
       });
 
     return () => {
-      camera?.getTracks().forEach((track) => {
+      cam?.getTracks().forEach((track) => {
         track.stop();
       });
+      videoRef.current?.pause();
+      if (videoRef.current) videoRef.current.src = "";
+      setCamera(null);
     };
   }, []);
 
@@ -85,15 +98,6 @@ export default function FoodSnap({
 
   const errorComponent = error ? <div>{error}</div> : null;
 
-  if (!camera) {
-    return (
-      <div>
-        <div className="flex justify-center mt-10">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-4 border-snaptrack-dark"></div>
-        </div>
-      </div>
-    );
-  }
   if (loading) {
     return (
       <div>
@@ -124,10 +128,16 @@ export default function FoodSnap({
               onClick={capturePhoto}
               className="h-full w-full object-cover"
             />
-            <div className="flex items-center justify-center w-full absolute bottom-0 left-0 right-0 mb-5">
+            <div
+              className="absolute top-0 left-0 right-0 bottom-0 z-10 opacity-50"
+              hidden={!!camera}
+            >
+              <NoiseBg />
+            </div>
+            <div className="flex items-center justify-center w-full absolute bottom-0 left-0 right-0 mb-24 z-20">
               <button
                 onClick={capturePhoto}
-                className="text-white px-4 py-2 rounded hover:bg-snaptrack-dark"
+                className="text-white px-4 py-2 rounded"
               >
                 <div className={cn("stroke-none")}>
                   <svg
@@ -148,7 +158,7 @@ export default function FoodSnap({
                 </div>
               </button>
             </div>
-            <div className="absolute top-0 left-0 right-0 bottom-0 z-20 opacity-50 flex items-center justify-center">
+            <div className="absolute top-0 left-0 right-0 bottom-0 z-20 opacity-50 flex items-center justify-center pointer-events-none">
               <ScanCrosshair />
             </div>
           </>
@@ -160,23 +170,23 @@ export default function FoodSnap({
           <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
             <canvas ref={canvasRef} className="max-h-full max-w-full" />
           </div>
-          <div className="flex w-full p-4 absolute bottom-0 left-0 right-0 justify-around">
-            <button
+          <div className="flex w-full p-4 absolute bottom-0 left-0 right-0 justify-around mb-24">
+            <Button
               onClick={() => {
                 setData(null);
               }}
               className="text-white px-4 py-2 rounded bg-snaptrack-main hover:bg-snaptrack-dark"
             >
-              Retake
-            </button>
-            <button
+              <ReloadIcon />
+            </Button>
+            <Button
               onClick={() => {
                 sendPhoto();
               }}
-              className="text-white px-4 py-2 rounded bg-snaptrack-main hover:bg-snaptrack-dark"
+              className="text-white px-4 py-2 rounded bg-snaptrack-dark hover:bg-snaptrack-dark"
             >
-              Send
-            </button>
+              <CheckIcon />
+            </Button>
           </div>
         </div>
       </div>

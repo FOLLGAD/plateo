@@ -1,26 +1,9 @@
 "use client";
-import { DailyNutrition } from "@/components/DailyNutrition";
 import Header from "@/components/Header";
-import { useEffect, useState } from "react";
-import { Meal, apiURL } from "@/components/utils";
-import { useRouter } from "next/navigation";
 import { LoadSpinner } from "@/components/LoadSpinner";
-
-const useMeals = (date: string) => {
-  const [meals, setMeals] = useState<Meal[]>([]);
-  useEffect(() => {
-    fetch(`${apiURL}/meals/date/${date}`, {
-      method: "GET",
-      headers: {
-        token: "emil:1234",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setMeals(data))
-      .catch((error) => console.error(error));
-  }, [date]);
-  return meals;
-};
+import { useMeals } from "@/components/utils";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Page() {
   const router = useRouter();
@@ -98,19 +81,24 @@ export default function Page() {
   };
 
   return (
-    <div>
+    <div className="w-full min-h-full flex-grow flex flex-col">
       <Header backlinkUrl="/" />
-      <DailyNutrition meals={todaysMeals} />
-      {!loading ? (
-        <button
-          className="bg-snaptrack-main hover:bg-snaptrack-dark text-white font-bold py-2 px-4 rounded text-xl mx-auto"
-          onClick={generateRecipe}
-        >
-          Generate recipe
-        </button>
-      ) : (
-        <LoadSpinner />
-      )}
+      <div className="w-full min-h-full flex-grow flex flex-col items-center justify-center">
+        {!loading ? (
+          <button
+            className="bg-snaptrack-text hover:bg-snaptrack-dark text-white font-bold py-2 px-4 rounded text-xl mx-auto"
+            onClick={generateRecipe}
+          >
+            Generate recipe
+          </button>
+        ) : (
+          <div className="flex flex-col items-center justify-center font-semibold">
+            <LoadSpinner />
+            <div className="text-xl text-snaptrack-text">Generating recipe</div>
+            <div className=" text-gray-400">Hold tight...</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

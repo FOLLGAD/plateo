@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 const home = (
   <svg
@@ -71,15 +72,41 @@ const d = (
 );
 
 export const BottomBar = () => {
-  const activeColor = "#408B4B";
   const router = useRouter();
   const pathname = usePathname();
 
+  const activeRoute: "Home" | "Meal" | "Stats" | "Snap" | "Generate" =
+    useMemo(() => {
+      if (pathname === "/") return "Home";
+      if (pathname.startsWith("/meals")) return "Meal";
+      if (pathname === "/stats") return "Stats";
+      if (pathname === "/snap") return "Snap";
+      if (pathname === "/gen" || pathname.startsWith("/recipes"))
+        return "Generate";
+      return "Home";
+    }, [pathname]);
+
   // bottom app nav bar
   return (
-    <div className="flex justify-between items-center w-full px-4 py-2 pb-8 bg-white fixed bottom-0 left-0 right-0 stroke-[#ACE4AA] fill-[#ACE4AA] shadow-[0_-4px_8px_0_rgba(0,0,0,0.1)] py-4 px-6">
-      <div className="flex items-center gap-4 stroke-[#408B4B]">{home}</div>
-      <div className="flex items-center gap-4">{b}</div>
+    <div className="flex justify-between items-center w-full px-4 py-2 pb-8 bg-white fixed bottom-0 left-0 right-0 stroke-[#ACE4AA] fill-[#ACE4AA] shadow-[0_-4px_8px_0_rgba(0,0,0,0.1)] py-4 px-6 z-50">
+      <div
+        className={cn("flex items-center gap-4", {
+          "stroke-[#408B4B]": activeRoute === "Home",
+          "fill-[#408B4B]": activeRoute === "Home",
+        })}
+        onClick={() => router.push("/")}
+      >
+        {home}
+      </div>
+      <div
+        className={cn("flex items-center gap-4", {
+          "stroke-[#408B4B]": activeRoute === "Generate",
+          "fill-[#408B4B]": activeRoute === "Generate",
+        })}
+        onClick={() => router.push("/gen")}
+      >
+        {b}
+      </div>
       <div className="w-0 relative">
         <div
           className={cn(
@@ -107,8 +134,23 @@ export const BottomBar = () => {
           </svg>
         </div>
       </div>
-      <div className="flex items-center gap-4">{stats}</div>
-      <div className="flex items-center gap-4">{d}</div>
+      <div
+        className={cn("flex items-center gap-4", {
+          "stroke-[#408B4B]": activeRoute === "Stats",
+          "fill-[#408B4B]": activeRoute === "Stats",
+        })}
+        onClick={() => router.push("/stats")}
+      >
+        {stats}
+      </div>
+      <div
+        className={cn("flex items-center gap-4", {
+          "stroke-[#408B4B]": activeRoute === "Meal",
+          "fill-[#408B4B]": activeRoute === "Meal",
+        })}
+      >
+        {d}
+      </div>
     </div>
   );
 };
