@@ -6,6 +6,8 @@ import { apiURL } from "@/components/utils";
 import { useParams, useRouter } from "next/navigation";
 import { LoadSpinner } from "@/components/LoadSpinner";
 
+export const runtime = "edge";
+
 const useRecipe = (recipe_id: string): Recipe | null => {
   const [recipe, setRecipe] = useState(null);
   useEffect(() => {

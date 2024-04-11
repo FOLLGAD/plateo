@@ -9,6 +9,8 @@ import { Meal } from "@/components/utils";
 import { LoadSpinner } from "@/components/LoadSpinner";
 import { Card } from "@/components/ui/card";
 
+export const runtime = "edge";
+
 const toGrams = (weight?: string | number) => {
   if (!weight) return 0;
   if (typeof weight === "number") {
