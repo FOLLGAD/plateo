@@ -150,9 +150,6 @@ export default function FoodSnap({
             </div>
             <div className="absolute top-0 left-0 right-0 bottom-0 z-20 opacity-50 flex items-center justify-center">
               <ScanCrosshair />
-              <div className="absolute top-0 left-0 right-0 bottom-0 z-20 opacity-50 flex items-center justify-center">
-                <div className="w-full h-1 bg-white animate-scanline-down absolute top-0"></div>
-              </div>
             </div>
           </>
         )}
