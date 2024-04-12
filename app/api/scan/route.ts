@@ -10,9 +10,9 @@ export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   const context = getRequestContext();
+  console.log(context.env, process.env);
   const client = new OpenAI({
-    // @ts-expect-error
-    apiKey: context.env.OPENAI_API_KEY,
+    apiKey: context.env["OPENAI_API_KEY"] || process.env["OPENAI_API_KEY"],
   });
   const fd = await request.formData();
   const file = fd.get("file") as File;
