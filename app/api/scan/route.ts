@@ -8,10 +8,11 @@ import { processFile } from "./fileUpload";
 
 export const runtime = "edge";
 
-const client = new OpenAI();
-
 export async function POST(request: NextRequest) {
   const context = getRequestContext();
+  const client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
   const fd = await request.formData();
   const file = fd.get("file") as File;
   const imageId = await processFile(file);
