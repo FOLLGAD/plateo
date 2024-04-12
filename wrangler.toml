@@ -1,6 +1,7 @@
 name = "plateo"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-04-12"
 
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
