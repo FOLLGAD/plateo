@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "resolutions": {
+    "string-width": "4.2.3"
+  },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.11.0",
     "@cloudflare/workers-types": "^4.20240405.0",
