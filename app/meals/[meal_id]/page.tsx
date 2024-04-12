@@ -1,13 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useRouter, useParams } from "next/navigation";
 import Header from "@/components/Header";
-import { useEffect, useState } from "react";
-import { apiURL } from "@/components/utils";
-import Chart from "react-apexcharts";
-import { Meal } from "@/components/utils";
 import { LoadSpinner } from "@/components/LoadSpinner";
 import { Card } from "@/components/ui/card";
+import { Meal, apiURL } from "@/components/utils";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
 
 export const runtime = "edge";
 
@@ -47,8 +46,8 @@ export default function Meal() {
           token: "emil:1234",
         },
       })
-        .then((res) => res.json())
-        .then((data) => setMealData(data))
+        .then((res) => res.json() as Promise<{ data: Meal }>)
+        .then((data) => setMealData(data.data))
         .catch((error) => console.error(error));
     }
   }, [meal_id]);

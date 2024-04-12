@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 const env = process.env.NODE_ENV;
-export const apiURL =
-  env == "development" ? "http://127.0.0.1:8000" : "https://plateo.ngrok.app";
+// export const apiURL = env !== "production" ? "" : "https://plateo.ngrok.app";
+export const apiURL = "/api";
 
 export const useToggle = (initialState: boolean) => {
   const [state, setState] = useState(initialState);
@@ -32,7 +32,7 @@ export const useMeals = (date: string) => {
         token: "emil:1234",
       },
     })
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<Meal[]>)
       .then((data) => setMeals(data))
       .catch((error) => console.error(error));
   }, [date]);

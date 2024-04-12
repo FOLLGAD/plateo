@@ -22,7 +22,7 @@ const useLatestMeals = () => {
         token: "emil:1234",
       },
     })
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<any[]>)
       .then((data) => setMeals(data))
       .catch((error) => console.error(error));
   }, []);

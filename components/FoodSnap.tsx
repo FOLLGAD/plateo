@@ -1,16 +1,27 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { apiURL } from "./utils";
-import { ScanCrosshair } from "./ScanCrosshair";
 import { cn } from "@/lib/utils";
-import {
-  CheckIcon,
-  CircleBackslashIcon,
-  ReloadIcon,
-  UploadIcon,
-} from "@radix-ui/react-icons";
-import { Button } from "./ui/button";
+import { CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NoiseBg } from "./NoiseBg";
+import { ScanCrosshair } from "./ScanCrosshair";
+import { Button } from "./ui/button";
+import { apiURL } from "./utils";
+
+interface Food {
+  title: string;
+  user_id: string;
+  date: string;
+  ingredients: { name: string; weight: string }[];
+  allergens: string[];
+  proteins: number;
+  carbs: number;
+  fats: number;
+  salt: number;
+  fiber: number;
+  calories: number;
+  sugars: number;
+  images: string[];
+}
 
 export default function FoodSnap({
   onResults,
@@ -66,6 +77,12 @@ export default function FoodSnap({
   const sendPhoto = useCallback(async () => {
     if (data) {
       setLoading(true);
+
+      // 1. upload to cloudflare
+      // 2. call api.
+      // 3. store in DB. (mb just KV even)
+      // 4. return id here and bosh.
+
       const formData = new FormData();
       const byteString = atob(data.split(",")[1]);
       const mimeString = data.split(",")[0].split(":")[1].split(";")[0];
@@ -77,13 +94,20 @@ export default function FoodSnap({
       const blob = new Blob([ab], { type: mimeString });
       formData.append("file", blob, "image.png");
 
-      const results = await fetch(apiURL + "/upload", {
+      const results = await fetch(apiURL + "/scan", {
         method: "POST",
         body: formData,
         headers: {
           token: "emil:1234",
         },
-      }).then((res) => res.json());
+      }).then(
+        (res) =>
+          res.json() as Promise<{
+            message: string;
+            data: Food;
+            error?: string;
+          }>
+      );
 
       if (results.error) {
         setError(results.error);

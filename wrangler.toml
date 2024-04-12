@@ -1,2 +1,12 @@
 name = "plateo"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
 
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "plateo-db"
+database_id = "27c899a9-45d3-47ba-8557-957d3171cbf9"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "plateo-uploads"
