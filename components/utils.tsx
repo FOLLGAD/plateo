@@ -25,16 +25,17 @@ export interface Meal {
 }
 export const useMeals = (date: string) => {
   const [meals, setMeals] = useState<Meal[]>([]);
-  useEffect(() => {
-    fetch(`${apiURL}/meals/date/${date}`, {
-      method: "GET",
-      headers: {
-        token: "emil:1234",
-      },
-    })
-      .then((res) => res.json() as Promise<Meal[]>)
-      .then((data) => setMeals(data))
-      .catch((error) => console.error(error));
-  }, [date]);
+  // TODO: Fix this
+  // useEffect(() => {
+  //   fetch(`${apiURL}/meals/date/${date}`, {
+  //     method: "GET",
+  //     headers: {
+  //       token: "emil:1234",
+  //     },
+  //   })
+  //     .then((res) => res.json() as Promise<Meal[]>)
+  //     .then((data) => setMeals(data))
+  //     .catch((error) => console.error(error));
+  // }, [date]);
   return meals;
 };

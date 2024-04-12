@@ -70,7 +70,7 @@ export default function Home() {
       </div>
       <div className="flex justify-center mt-4 items-center flex-col z-10">
         <div className="w-32 pt-4">
-          <Image src="/plateo.svg" width={128} height={128} alt="logo" />
+          <Image src="/plateo.png" width={128} height={128} alt="logo" />
         </div>
         <h1 className="text-3xl font-bold mt-2 text-snaptrack-text pl-2">
           Plateo
