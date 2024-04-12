@@ -6,7 +6,7 @@ compatibility_date = "2024-04-12"
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "plateo-db"
-database_id = "27c899a9-45d3-47ba-8557-957d3171cbf9"
+database_id = "f5c97ceb-f8e3-4dc9-908d-e6bda5ab7f11"
 
 [[r2_buckets]]
 binding = "BUCKET"
