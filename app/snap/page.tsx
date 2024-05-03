@@ -7,7 +7,6 @@ export default function Snap() {
   const router = useRouter();
 
   const onResults = (results: any) => {
-    console.log(results);
     router.push(`/meals/${results.food_id}`);
   };
   return (

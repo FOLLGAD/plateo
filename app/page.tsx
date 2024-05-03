@@ -11,12 +11,27 @@ import {
   CaretLeftIcon,
   CaretRightIcon,
 } from "@radix-ui/react-icons";
+import Link from "next/link";
+
+const dateTimeToMealOfDay = (
+  date: string
+): "breakfast" | "lunch" | "dinner" => {
+  const now = new Date(date);
+  if (now.getHours() < 6) return "dinner";
+  const mealOfDay =
+    now.getHours() < 11
+      ? "breakfast"
+      : now.getHours() < 18
+      ? "lunch"
+      : "dinner";
+  return mealOfDay;
+};
 
 const useLatestMeals = () => {
   const [meals, setMeals] = useState<null | any[]>(null);
 
   useEffect(() => {
-    fetch(apiURL + "/meals/latest", {
+    fetch(apiURL + "/meals/today", {
       method: "GET",
       headers: {
         token: "emil:1234",
@@ -53,6 +68,24 @@ export default function Home() {
     weekday: "long",
   });
 
+  const todaysMeals = [
+    {
+      title: "Berry Pancakes",
+      date: "2024-05-02T09:00:00.000Z",
+      calories: 1589,
+      image:
+        "https://www.allrecipes.com/thmb/ecb0XKvcrE7OyxBLX3OVEd30TbE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/686460-todds-famous-blueberry-pancakes-Dianne-1x1-1-9bd040b975634bce884847ce2090de16.jpg",
+    },
+    {
+      title: "Pesto Pasta",
+      date: "2024-05-02T12:00:00.000Z",
+      calories: 720,
+      image:
+        "https://itsavegworldafterall.com/wp-content/uploads/2022/03/Vegetarian-Pesto-Pasta-4.jpg",
+    },
+    ...(meals ?? []),
+  ];
+
   return (
     <div>
       <div className="absolute flex justify-center items-center w-full overflow-x-hidden top-0">
@@ -88,27 +121,48 @@ export default function Home() {
         })}
         <CaretRightIcon className="w-6 h-6 text-gray-500" />
       </div>
+
       <div className="flex flex-col items-center justify-center gap-4 px-4">
-        <Card className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow">
-          <BerryPancake />
-          <div className="flex-grow">
-            <p className="text-snaptrack-text font-bold">Breakfast</p>
-            <p className="text-black font-medium">Berry Pancakes</p>
-          </div>
-          <div className="text-right">
-            <p className="text-black font-medium">1589 kcal</p>
-          </div>
-        </Card>
-        <Card className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow">
-          <BerryPancake />
-          <div className="flex-grow">
-            <p className="text-snaptrack-text font-bold">Lunch</p>
-            <p className="text-black font-medium">Pesto Pasta</p>
-          </div>
-          <div className="text-right">
-            <p className="text-black font-medium">720 kcal</p>
-          </div>
-        </Card>
+        {todaysMeals.length ? (
+          todaysMeals.map((meal, index) => (
+            <Link
+              href={`/meals/${meal.food_id}`}
+              key={index}
+              className="w-full"
+            >
+              <Card
+                key={index}
+                className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow"
+              >
+                <div className="w-16 h-16 rounded-full flex-shrink-0 shadow">
+                  <img
+                    src={
+                      meal.image
+                        ? meal.image
+                        : `${apiURL}/images/${meal.images[0]}`
+                    }
+                    alt={meal.title}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <div className="flex-grow">
+                  <p className="text-snaptrack-text font-bold">{meal.title}</p>
+                  <p className="text-gray-500 font-medium uppercase text-sm">
+                    {dateTimeToMealOfDay(meal.date)}
+                  </p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-black font-medium">{meal.calories} kcal</p>
+                </div>
+              </Card>
+            </Link>
+          ))
+        ) : (
+          // "nothing scanned today" text
+          <p className="text-snaptrack-text text-center font-bold">
+            Nothing scanned today
+          </p>
+        )}
       </div>
 
       <h2 className="text-xl font-bold uppercase ml-4 mt-8 mb-4">
@@ -120,7 +174,11 @@ export default function Home() {
           className="flex items-center justify-center px-4 py-4 gap-4 w-full border-0 drop-shadow-lg shadow bg-snaptrack-light"
           onClick={() => router.push("/gen")}
         >
-          <BerryPancake />
+          <img
+            src="https://ketovegetarianrecipes.com/wp-content/uploads/2023/01/mushroom-salad-insta.jpg"
+            alt="Mushroom Salad"
+            className="w-16 h-16 rounded-full shadow"
+          />
           <div className="flex-grow">
             <p className="text-snaptrack-text font-bold">
               Dinner{" "}

@@ -26,16 +26,16 @@ export interface Meal {
 export const useMeals = (date: string) => {
   const [meals, setMeals] = useState<Meal[]>([]);
   // TODO: Fix this
-  // useEffect(() => {
-  //   fetch(`${apiURL}/meals/date/${date}`, {
-  //     method: "GET",
-  //     headers: {
-  //       token: "emil:1234",
-  //     },
-  //   })
-  //     .then((res) => res.json() as Promise<Meal[]>)
-  //     .then((data) => setMeals(data))
-  //     .catch((error) => console.error(error));
-  // }, [date]);
+  useEffect(() => {
+    fetch(`${apiURL}/meals/today`, {
+      method: "GET",
+      headers: {
+        token: "emil:1234",
+      },
+    })
+      .then((res) => res.json() as Promise<Meal[]>)
+      .then((data) => setMeals(data))
+      .catch((error) => console.error(error));
+  }, [date]);
   return meals;
 };

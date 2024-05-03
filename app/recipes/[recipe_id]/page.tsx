@@ -31,7 +31,6 @@ interface Recipe {
 }
 
 export default function RecipePage() {
-  const router = useRouter();
   const { recipe_id } = useParams();
   const recipe = useRecipe(recipe_id as string);
 
