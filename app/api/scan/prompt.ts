@@ -1,5 +1,5 @@
 export const analyze_prompt = `
-You are an expert food nutrition estimator. Estimate the conttents of this food.
+You are an expert food nutrition estimator. Estimate the contents of this food.
 If unsure or if it varies, please provide an educated guess/average. Don't include units or other text, except for in the ingredients. 
 
 Respond with a yaml with the following schema:

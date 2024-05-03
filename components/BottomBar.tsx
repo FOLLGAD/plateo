@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
@@ -75,10 +76,10 @@ export const BottomBar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const activeRoute: "Home" | "Meal" | "Stats" | "Snap" | "Generate" =
+  const activeRoute: "Home" | "Chat" | "Stats" | "Snap" | "Generate" =
     useMemo(() => {
       if (pathname === "/") return "Home";
-      if (pathname.startsWith("/meals")) return "Meal";
+      if (pathname.startsWith("/chat")) return "Chat";
       if (pathname === "/stats") return "Stats";
       if (pathname === "/snap") return "Snap";
       if (pathname === "/gen" || pathname.startsWith("/recipes"))
@@ -88,7 +89,7 @@ export const BottomBar = () => {
 
   // bottom app nav bar
   return (
-    <div className="flex justify-between items-center w-full px-4 py-2 pb-8 bg-white fixed bottom-0 left-0 right-0 stroke-[#ACE4AA] fill-[#ACE4AA] shadow-[0_-4px_8px_0_rgba(0,0,0,0.1)] py-4 px-6 z-50">
+    <div className="flex justify-between items-center w-full px-4 py-2 pb-8 bg-white fixed bottom-0 left-0 right-0 text-[#ACE4AA] stroke-[#ACE4AA] fill-[#ACE4AA] shadow-[0_-4px_8px_0_rgba(0,0,0,0.1)] py-4 px-6 z-50">
       <div
         className={cn("flex items-center gap-4", {
           "stroke-[#408B4B]": activeRoute === "Home",
@@ -140,16 +141,16 @@ export const BottomBar = () => {
           "fill-[#408B4B]": activeRoute === "Stats",
         })}
         onClick={() => router.push("/stats")}
-      >
+        >
         {stats}
       </div>
       <div
         className={cn("flex items-center gap-4", {
-          "stroke-[#408B4B]": activeRoute === "Meal",
-          "fill-[#408B4B]": activeRoute === "Meal",
+          "text-[#408B4B]": activeRoute === "Chat",
         })}
+        onClick={() => router.push("/chat")}
       >
-        {d}
+        <ChatBubbleIcon className="w-8 h-8 stroke-0" />
       </div>
     </div>
   );

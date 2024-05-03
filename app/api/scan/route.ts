@@ -9,6 +9,7 @@ import {
   VertexAI,
 } from "@google-cloud/vertexai";
 import sqlite from "sqlite3";
+import { getGeminiResponse } from "../getGeminiResponse";
 
 const db = new sqlite.Database("./db.sqlite");
 
@@ -30,43 +31,16 @@ CREATE TABLE IF NOT EXISTS foods (
     calories INT,
     sugars DECIMAL(5,2)
 );
+
+CREATE TABLE IF NOT EXISTS symptoms (
+    memory_id VARCHAR(50) PRIMARY KEY,
+    user_id VARCHAR(50),
+    date TIMESTAMP,
+    title TEXT,
+    summary TEXT
+);
 `
 );
-
-async function getGeminiResponse(messages: Content[], systemPrompt: string) {
-  const vertex_ai = new VertexAI({
-    project: "neostack-391613",
-    location: "europe-west2",
-  });
-  const model = "gemini-1.5-pro-preview-0409";
-
-  // Instantiate the models
-  const generativeModel = vertex_ai.preview.getGenerativeModel({
-    model: model,
-    generationConfig: {
-      maxOutputTokens: 8192,
-      topP: 0.95,
-      temperature: 0.0,
-    },
-    systemInstruction: {
-      role: "system",
-      parts: [{ text: systemPrompt }],
-    },
-  });
-
-  async function generateContent() {
-    const req: GenerateContentRequest = {
-      // contents: [{ role: "user", parts: [{ text: `hey!` }] }],
-      contents: messages,
-    };
-
-    const resp = await generativeModel.generateContent(req);
-
-    return resp.response.candidates[0].content.parts[0].text;
-  }
-
-  return generateContent();
-}
 
 export async function POST(request: NextRequest) {
   const fd = await request.formData();
@@ -99,7 +73,7 @@ export async function POST(request: NextRequest) {
         ],
       },
     ],
-    `You are an expert food nutrition estimator. Estimate the conttents of this food. Only respond with a yaml`
+    `You are an expert food nutrition estimator. Estimate the contents of this food. Only respond with a yaml`
   );
   // const response = await getOpenAIResponse(
   //   [
@@ -119,7 +93,7 @@ export async function POST(request: NextRequest) {
   //       ],
   //     },
   //   ],
-  //   `You are an expert food nutrition estimator. Estimate the conttents of this food. Only respond with a yaml`
+  //   `You are an expert food nutrition estimator. Estimate the contents of this food. Only respond with a yaml`
   // );
 
   const outData = response || "No response";
