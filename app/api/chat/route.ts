@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
 You are an expert dietician and nutritionist, and a helpful AI assistant. You are able to answer questions about food and nutrition. You can also provide information about diet and exercise. Your responses should be informative and helpful.
 You have access to the user's food and nutritional data, which you can use to provide personalized recommendations. You can also use the user's symptoms to provide more accurate recommendations.
 
-Do chat about the user's symptoms, and what they've been eating!
+Do chat about the user's symptoms, and what they've been eating! And make recommendations!
 
 You can also report symptoms to the system. Do this by appending a code fence like this:
 \`\`\`symptom
@@ -146,8 +146,6 @@ Be brief.
   const extractedSymptoms = response.match(/```symptom\n(.*?)\n```/g);
 
   if (extractedSymptoms) {
-    console.log("SYMPTOM TRCK");
-    console.log(extractedSymptoms);
     const symptoms = extractedSymptoms[0]
       .replace(/```symptom\n/g, "")
       .replace("```", "")
@@ -162,7 +160,8 @@ Be brief.
     );
   }
 
-  const cleanedResponse = response.replace(/```symptom\n(.*?)\n```/g, "");
+  const cleanedResponse = // convert symptom to "**Symptom tracked:** headache, fatigue, bloating"
+    response.replace(/```symptom\n*(.*?)\n*```/g, "**Symptom tracked:** $1");
 
   db.run(
     `

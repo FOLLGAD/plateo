@@ -44,13 +44,13 @@ CREATE TABLE IF NOT EXISTS symptoms (
 
 export async function POST(request: NextRequest) {
   const fd = await request.formData();
-  // const file = fd.get("file") as File;
-  // const imageId = await processFile(file, file.name);
+  const file = fd.get("file") as File;
+  const imageId = await processFile(file, file.name);
 
-  const file = await fetch(
-    "https://www.allrecipes.com/thmb/ecb0XKvcrE7OyxBLX3OVEd30TbE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/686460-todds-famous-blueberry-pancakes-Dianne-1x1-1-9bd040b975634bce884847ce2090de16.jpg"
-  ).then((res) => res.blob());
-  const imageId = await processFile(file, "blueberry.png");
+  // const file = await fetch(
+  //   "https://www.allrecipes.com/thmb/ecb0XKvcrE7OyxBLX3OVEd30TbE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/686460-todds-famous-blueberry-pancakes-Dianne-1x1-1-9bd040b975634bce884847ce2090de16.jpg"
+  // ).then((res) => res.blob());
+  // const imageId = await processFile(file, "blueberry.png");
 
   // file to base64
   const fileBuffer = await file.arrayBuffer();

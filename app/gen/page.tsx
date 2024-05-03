@@ -42,43 +42,39 @@ export default function Page() {
         ? "Lunch"
         : "Dinner";
 
-    const response = await fetch(`${apiURL}/recipes/generate`, {
-      method: "POST",
-      headers: {
-        token: "emil:1234",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        mealType: mealOfDay,
-        nutrition: {
-          calories,
-          proteins,
-          carbs,
-          fats,
-          sugars,
-          fiber,
-        },
-      }),
-    }).then((res) => res.json());
+    // const response = await fetch(`${apiURL}/recipes/generate`, {
+    //   method: "POST",
+    //   headers: {
+    //     token: "emil:1234",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     mealType: mealOfDay,
+    //     nutrition: {
+    //       calories,
+    //       proteins,
+    //       carbs,
+    //       fats,
+    //       sugars,
+    //       fiber,
+    //     },
+    //   }),
+    // }).then((res) => res.json());
 
-    if (response.recipe_id) {
-      router.push(`/recipes/${response.recipe_id}`);
-      setLoading(false);
-    }
-
-    // setTimeout(() => {
-    //   const recipe = [
-    //     "n9ipxdls",
-    //     "D_ZwsIXn",
-    //     "GOYtD0XJ",
-    //     "p7dlvuO4",
-    //     "xJDSSr9R",
-    //   ];
-    //   router.push(
-    //     `/recipes/${recipe[Math.floor(Math.random() * recipe.length)]}`
-    //   );
+    // if (response.recipe_id) {
+    //   router.push(`/recipes/${response.recipe_id}`);
     //   setLoading(false);
-    // }, 5000);
+    // }
+
+    setTimeout(() => {
+      const recipe = [
+        "n9ipxdls",
+      ];
+      router.push(
+        `/recipes/${recipe[Math.floor(Math.random() * recipe.length)]}`
+      );
+      setLoading(false);
+    }, 3000);
   };
 
   return (

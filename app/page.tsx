@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DetailsBar } from "../components/DetailsBar";
-import { BerryPancake } from "@/components/imgs";
 import { Card } from "@/components/ui/card";
 import {
   ArrowRightIcon,
