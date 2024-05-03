@@ -21,7 +21,6 @@ const Header = ({ backlinkUrl }: { backlinkUrl?: string }) => {
   const pathname = usePathname();
 
   const isSnap = pathname.startsWith("/snap");
-  console.log(isSnap);
 
   return (
     <>

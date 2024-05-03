@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   });
   const fd = await request.formData();
   const file = fd.get("file") as File;
-  const imageId = await processFile(file);
+  const imageId = await processFile(file, file.name);
 
   // file to base64
   const fileBuffer = await file.arrayBuffer();

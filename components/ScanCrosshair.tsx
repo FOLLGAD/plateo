@@ -11,32 +11,32 @@ export const ScanCrosshair = () => {
         <path
           d="M7 83V51.3C7 34.2153 7 25.6729 10.3776 19.1708C13.2239 13.6915 17.6915 9.22386 23.1708 6.3776C29.6729 3 38.2153 3 55.3 3H86"
           stroke="white"
-          stroke-width="5"
-          stroke-linecap="round"
+          strokeWidth="5"
+          strokeLinecap="round"
         />
       </g>
       <g filter="url(#filter1_d_145_874)">
         <path
           d="M231.001 2.99998L272.331 3.0004C293.87 3.00062 311.33 20.4617 311.33 42.0008L311.33 81.6571"
           stroke="white"
-          stroke-width="5"
-          stroke-linecap="round"
+          strokeWidth="5"
+          strokeLinecap="round"
         />
       </g>
       <g filter="url(#filter2_d_145_874)">
         <path
           d="M310.531 398.673L310.132 449.001C310.001 465.569 296.464 478.894 279.896 478.763L231.241 478.378"
           stroke="white"
-          stroke-width="5"
-          stroke-linecap="round"
+          strokeWidth="5"
+          strokeLinecap="round"
         />
       </g>
       <g filter="url(#filter3_d_145_874)">
         <path
           d="M87.3273 477.246L36.9991 476.847C20.431 476.716 7.10642 463.178 7.2377 446.61L7.62321 397.955"
           stroke="white"
-          stroke-width="5"
-          stroke-linecap="round"
+          strokeWidth="5"
+          strokeLinecap="round"
         />
       </g>
       <defs>

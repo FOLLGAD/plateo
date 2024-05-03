@@ -34,7 +34,7 @@ export const Logo = () => (
           d="M138 28.2381V89"
           stroke="#D9D9D9"
           strokeWidth="3"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
       </g>
       <path
@@ -46,7 +46,7 @@ export const Logo = () => (
         d="M10.1905 28.2381V89M6 28.2381V40.3439C6 42.9154 8.0846 45 10.6561 45C12.7133 45 14.381 43.3323 14.381 41.2751V28.2381"
         stroke="#D9D9D9"
         strokeWidth="3"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
       <circle cx="44.7619" cy="64.9048" r="7.33333" fill="#343232" />
@@ -55,13 +55,13 @@ export const Logo = () => (
         <path
           d="M55.2381 72.2381H90.8571"
           stroke="#343232"
-          stroke-linecap="round"
+          strokeLinecap="round"
           stroke-linejoin="round"
         />
         <path
           d="M56.2857 72.2381V72.2381C60.8645 89.4085 85.2308 89.4085 89.8095 72.2381V72.2381"
           stroke="#343232"
-          stroke-linecap="round"
+          strokeLinecap="round"
           stroke-linejoin="round"
         />
       </g>
@@ -74,7 +74,7 @@ export const Logo = () => (
           d="M81.4286 82.7143L75.1429 81.1429C73.7672 80.799 72.3281 80.799 70.9524 81.1429L64.6667 82.7143C69.9426 85.3523 76.1527 85.3523 81.4286 82.7143Z"
           stroke="#343232"
           strokeWidth="0.5"
-          stroke-linecap="round"
+          strokeLinecap="round"
           stroke-linejoin="round"
         />
       </g>

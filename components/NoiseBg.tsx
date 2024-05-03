@@ -20,7 +20,7 @@ const useAnimationFrame = (callback: () => void) => {
 };
 
 export const NoiseBg = () => {
-  const [seed, setSeed] = useState(((Math.random() * 100000) | 0) + "");
+  const [seed, setSeed] = useState("0");
 
   useAnimationFrame(() => {
     setSeed(((Math.random() * 100000) | 0) + "");

@@ -1,10 +1,13 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import short from "short-uuid";
 
-export const processFile = async (file: File): Promise<string | null> => {
+export const processFile = async (
+  file: Blob,
+  fileName: string
+): Promise<string | null> => {
   if (file) {
     const context = getRequestContext();
-    const ext = file.name.split(".").pop();
+    const ext = fileName.split(".").pop();
     const fileName = short.generate() + "." + ext;
     const fileStream = await file.arrayBuffer();
 
