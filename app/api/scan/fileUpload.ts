@@ -8,15 +8,15 @@ export const processFile = async (
   if (file) {
     const context = getRequestContext();
     const ext = fileName.split(".").pop();
-    const fileName = short.generate() + "." + ext;
+    const fileIdName = short.generate() + "." + ext;
     const fileStream = await file.arrayBuffer();
 
     // Store the file in the R2 bucket
     // @ts-expect-error
     const bucket = context.env.BUCKET as R2Bucket;
-    await bucket.put(fileName, fileStream);
+    await bucket.put(fileIdName, fileStream);
 
-    return fileName;
+    return fileIdName;
   }
   return null;
 };
