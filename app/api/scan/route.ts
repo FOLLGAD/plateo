@@ -10,7 +10,6 @@ export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   const context = getRequestContext();
-  console.log(context.env, process.env);
   const client = new OpenAI({
     apiKey: context.env["OPENAI_API_KEY"] || process.env["OPENAI_API_KEY"],
   });
